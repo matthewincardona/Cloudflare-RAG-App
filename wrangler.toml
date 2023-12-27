@@ -49,3 +49,15 @@ compatibility_date = "2023-12-18"
 # [[migrations]]
 # tag = "v1"
 # new_classes = ["MyDurableObject"]
+
+[[d1_databases]]
+binding = "DB"
+database_name = "rag-example-webinar"
+database_id = "4b245f9f-433a-478e-a5cf-63a7feb754fd"
+
+[[vectorize]]
+binding = "VECTORIZE_INDEX"
+index_name = "rag-example-index"
+
+[ai]
+binding = "AI"
