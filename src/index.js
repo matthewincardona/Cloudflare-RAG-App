@@ -1,15 +1,34 @@
-/**
- * Welcome to Cloudflare Workers! This is your first worker.
- *
- * - Run `npm run dev` in your terminal to start a development server
- * - Open a browser tab at http://localhost:8787/ to see your worker in action
- * - Run `npm run deploy` to publish your worker
- *
- * Learn more at https://developers.cloudflare.com/workers/
- */
+import { Ai } from '@cloudflare/ai'
+import { Hono } from 'hono'
 
-export default {
-	async fetch(request, env, ctx) {
-		return new Response('Hello World!');
-	},
-};
+import ui from './ui.html'
+
+const app = new Hono()
+
+// 1. the ui for asking questions
+app.get("/", c => {
+	return c.html(ui)
+})
+
+// 2. a POST endpoint to query the LLM
+app.get("/query", async c => {
+	const ai = new Ai(c.env.AI)
+
+	const question = c.req.query("text") || "What is the square root of 9?"
+
+	const { response: answer } = await ai.run(
+		"@cf/meta/llama-2-7b-chat-int8",
+		{
+			messages: [
+				{ role: "system", content: "You are a helpful assistant" },
+				{ role: "user", content: question },
+			]
+		}
+	)
+	return c.text(answer)
+})
+
+// 3. the ui for adding notes
+// 4. a POST endpoint to add notes
+
+export default app
