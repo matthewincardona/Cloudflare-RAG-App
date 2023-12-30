@@ -56,7 +56,7 @@ database_name = "rag-example-webinar"
 database_id = "4b245f9f-433a-478e-a5cf-63a7feb754fd"
 
 [[vectorize]]
-binding = "VECTORIZE_INDEX"
+binding = "VECTOR_INDEX"
 index_name = "rag-example-webinar-index"
 
 [ai]
